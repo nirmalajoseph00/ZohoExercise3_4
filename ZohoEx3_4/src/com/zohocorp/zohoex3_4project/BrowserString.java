@@ -6,15 +6,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.*;
-import java.io.*;
-
 
 class Browser {
 	private ArrayList<String> url = new ArrayList<>();
 	private int numberOfTabs;
 	private Integer numberOfTabsObject;
-	private static HashMap<String, Integer> numberOfVisits= new HashMap<>();
+	private HashMap<String, Integer> numberOfVisits= new HashMap<>();
 	
 	Browser(){
 		//empty constructor
