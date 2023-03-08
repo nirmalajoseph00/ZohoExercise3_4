@@ -6,11 +6,14 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.*;
+import java.io.*;
 
 
 class Browser {
 	private ArrayList<String> url = new ArrayList<>();
 	private int numberOfTabs;
+	private Integer numberOfTabsObject;
 	private static HashMap<String, Integer> numberOfVisits= new HashMap<>();
 	
 	Browser(){
@@ -34,9 +37,12 @@ class Browser {
 	public void setTabNumber(int numberOfTabs)
 	{
 		this.numberOfTabs=numberOfTabs;
-		System.out.println(this.numberOfTabs);
+		this.numberOfTabsObject=numberOfTabs;
 	}
-	
+	public int getTabNumber()
+	{
+		return this.numberOfTabs;
+	}
 	
 	public void display()  
 	{  
@@ -53,6 +59,17 @@ class Browser {
 	}
 	public void whoAmI() {
 		System.out.println("I am a browser");
+	}
+	
+	public void autoboxing()
+	{
+		numberOfTabsObject=numberOfTabs;
+		System.out.println(numberOfTabsObject);
+	}
+	public void unboxing()
+	{
+		numberOfTabs=numberOfTabsObject;
+		System.out.println(numberOfTabs);
 	}
 }
 
@@ -151,16 +168,16 @@ class Firefox extends Browser implements MultipleAccountContainers {
 
 public class BrowserString{
 	
-	public static Browser[] growArraySize(Browser b[], int indexAllBrowsers) {
-		if(b.length==indexAllBrowsers)
+	public static Browser[] growArraySize(Browser browserTabArray[], int indexAllBrowsers) {
+		if(browserTabArray.length==indexAllBrowsers)
 		{
 			Browser newB[]=new Browser[indexAllBrowsers+1];
 			for(int i=0;i<indexAllBrowsers;i++)
-				newB[i]=b[i];
+				newB[i]=browserTabArray[i];
 			
-			b=newB;
+			browserTabArray=newB;
 		}  
-		return b;
+		return browserTabArray;
 	}
 	
 	
@@ -171,7 +188,6 @@ public class BrowserString{
 		char c='Y' ;
 		int choice;
 		int indexAllBrowsers=5;
-		
 		
 		Browser newTab=new Browser();
 		Browser newGoogleTab=new GoogleChrome();
@@ -281,20 +297,38 @@ public class BrowserString{
 		}
 	}
 	
-	public static void numberOfTabs(Browser b[]){
+	public static void numberOfTabs(Browser browserTabArray[]){
 		int countGoogleChrome=0;
 		int countFirefox=0;
+		int googleTabIndex=0;
+		int firefoxTabIndex=0;
 		
-		for(int j=0;j<b.length;j++) {
-			if(b[j] instanceof GoogleChrome) {
-				b[j].setTabNumber(++countGoogleChrome);
+		for(int j=0;j<browserTabArray.length;j++) {
+			if(browserTabArray[j] instanceof GoogleChrome) {
+				browserTabArray[j].setTabNumber(++countGoogleChrome);
+				for(int i=0;i<j;i++)
+				{
+					if(browserTabArray[i] instanceof GoogleChrome)
+						browserTabArray[i].setTabNumber(countGoogleChrome);
+				}
+				googleTabIndex=j;
 			}
-			else if(b[j] instanceof Firefox) {
-				b[j].setTabNumber(++countFirefox);
+			else if(browserTabArray[j] instanceof Firefox) {
+				browserTabArray[j].setTabNumber(++countFirefox);
+				for(int i=0;i<j;i++)
+				{
+					if(browserTabArray[i] instanceof Firefox)
+						browserTabArray[i].setTabNumber(countFirefox);
+				}
+				firefoxTabIndex=j;
 			}
 		}
-		System.out.println("Number of GoogleChrome tabs: "+ countGoogleChrome);
-		System.out.println("Number of Firefox tabs: "+ countFirefox);
+//		System.out.println("Number of GoogleChrome tabs: "+ browserTabArray[googleTabIndex].getTabNumber());
+//		System.out.println("Number of Firefox tabs: "+ browserTabArray[firefoxTabIndex].getTabNumber());
+		System.out.print("Number of GoogleChrome tabs: ");
+		browserTabArray[googleTabIndex].autoboxing();
+		System.out.print("Number of Firefox tabs: ");
+		browserTabArray[firefoxTabIndex].unboxing();
 	}
 	
 	public static void editContainer(Browser tabTwo){
